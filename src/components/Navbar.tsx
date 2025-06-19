@@ -18,7 +18,7 @@ const defaultNavItems: NavItem[] = [
 ];
 
 const Navbar: React.FC<NavbarProps> = ({
-  logo = 'MyApp',
+  logo = 'Student Helper',
   navItems = defaultNavItems
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -29,8 +29,15 @@ const Navbar: React.FC<NavbarProps> = ({
 
   const handleNavClick = (href: string): void => {
     setIsMenuOpen(false);
-    // You can add navigation logic here
-    console.log(`Navigating to: ${href}`);
+
+    // Smooth scroll to section
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   };
 
   return (
@@ -50,7 +57,10 @@ const Navbar: React.FC<NavbarProps> = ({
               <a
                 href={item.href}
                 className="navbar-link"
-                onClick={() => handleNavClick(item.href)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(item.href);
+                }}
               >
                 {item.name}
               </a>
@@ -73,7 +83,10 @@ const Navbar: React.FC<NavbarProps> = ({
                 <a
                   href={item.href}
                   className="navbar-mobile-link"
-                  onClick={() => handleNavClick(item.href)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item.href);
+                  }}
                 >
                   {item.name}
                 </a>
